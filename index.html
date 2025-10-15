@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TBCF Sound App</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="app">
+    <header>
+      <div class="title">
+        <h1>Church SoundApp</h1>
+        <span><a href="https://gendeu.github.io/gendeuportfolio/" target="_blank" class="home-title">by: deogagarin</a></span>
+      </div>
+    </header>
+
+    <div class="main-layout">
+      <!-- LEFT PANEL -->
+      <aside id="left-panel" class="sidebar expanded">
+        <div class="sidebar-header">
+          <h2>Line Up</h2>
+          <button id="toggle-sidebar">⏴</button>
+        </div>
+        <div id="lineup-content"></div>
+      </aside>
+
+      <!-- RIGHT PANEL -->
+      <section class="main-content">
+        <nav>
+          <div class="nav-buttons">
+            <button class="tab-btn" data-tab="entrance">Entrance</button>
+            <button class="tab-btn" data-tab="sustain">Sustain</button>
+            <button class="tab-btn" data-tab="preach">Preach</button>
+            <button class="tab-btn" data-tab="testimony">Testimony</button>
+            <button class="tab-btn" data-tab="victory">Victory</button>
+          </div>
+
+          <!-- Mobile dropdown -->
+          <div class="mobile-nav-container">
+            <div id="mobile-nav-trigger" class="mobile-nav-trigger">
+              <span id="mobile-nav-label">Entrance</span>
+              <span class="arrow">▾</span>
+            </div>
+            <div id="mobile-nav-menu" class="mobile-nav-menu hidden">
+              <div class="mobile-nav-item" data-tab="entrance">Entrance</div>
+              <div class="mobile-nav-item" data-tab="sustain">Sustain</div>
+              <div class="mobile-nav-item" data-tab="preach">Preach</div>
+              <div class="mobile-nav-item" data-tab="testimony">Testimony</div>
+              <div class="mobile-nav-item" data-tab="victory">Victory</div>
+            </div>
+          </div>
+        </nav>
+
+        <div id="content"></div>
+      </section>
+    </div>
+
+    <!-- Floating show button -->
+    <button id="show-sidebar" class="show-sidebar hidden">🎵 Lineup</button>
+
+    <div id="player-bar" class="hidden">
+      <div id="player-info">
+        <span id="player-title">No song playing</span>
+      </div>
+      <div id="player-controls">
+        <button id="player-play">⏸</button>
+        <button id="player-stop">⏹</button>
+      </div>
+    </div>
+
+    <div id="modal" class="hidden">
+      <div id="modal-content">
+        <p id="modal-text"></p>
+        <button id="modal-close">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
