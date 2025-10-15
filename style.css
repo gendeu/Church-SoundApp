@@ -719,3 +719,35 @@ audio {
     display: block;
   }
 }
+
+#player-progress-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  margin: 0 15px;
+}
+
+#player-progress {
+  flex: 1;
+  appearance: none;
+  height: 5px;
+  background: #333;
+  border-radius: 5px;
+  outline: none;
+  cursor: pointer;
+}
+#player-progress::-webkit-slider-thumb {
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  background: #00bfff;
+  border-radius: 50%;
+}
+.song[draggable="true"] {
+  cursor: grab;
+}
+.song.dragging {
+  opacity: 0.6;
+  transform: scale(0.98);
+}
