@@ -511,6 +511,11 @@ audio {
   .mobile-nav-container {
     display: block;
     padding: 10px 0;
+    min-height: 54px;
+  }
+  nav { 
+    min-height: 68px !important;
+    overflow: hidden !important;
   }
   .show-sidebar {
     top: 142px !important;

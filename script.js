@@ -44,19 +44,23 @@ const musicData = {
     { title: "A#",  file: "media/pads/pad_Asharp.mp3" },
     { title: "B",   file: "media/pads/pad_B.mp3" }
   ],
-  preach: [
+  emotion: [
     { title: "Prayer Ambiance Sound",   file: "media/Preach 1.mp3" },
     { title: "Relax Sustain Sound",   file: "media/Preach 2.mp3" },
     { title: "Speak Lord background Sound",   file: "media/Preach 3.mp3" },
-  ],
-  testimony: [
     { title: "Piano Emotional Sound 1",   file: "media/Testimony 1.mp3" },
     { title: "Piano Powerful Sound",   file: "media/Testimony 2.mp3" },
     { title: "Piano Emotional Sound 2",   file: "media/Testimony 3.mp3" },
     { title: "Piano Emotional Sound 3",   file: "media/Testimony 4.mp3" },
   ],
-  victory: [
-    { title: "I Am Free",   file: "media/I Am Free.mp3" },
+  effects: [
+    { title: "Awkward Laughing Meme",   file: "media/Awkward Laughing Meme.mp3" },
+    { title: "Riser - Sound Effect",   file: "media/Riser-Sound Effect.mp3" },
+  ],
+  songs: [
+    { title: "I Am Free - Michael Gungor",   file: "media/I Am Free.mp3" },
+    { title: "You are good - Michael Gungor",   file: "media/You Are Good.mp3" },
+    { title: "Turn it Up - Planetshakers",   file: "media/Turn It Up.mp3" },
     { title: "Ang Lahat ay Magsasaya",   file: "media/Ang Lahat ay Magsasaya.mp3" },
     { title: "Battle Cry",   file: "media/Battle Cry.mp3" },
     { title: "Break Every Chain  -  Elevation Worship",   file: "media/Break Every Chain  -  Elevation Worship.mp3" },
@@ -70,6 +74,25 @@ const musicData = {
     { title: "Shout to The Lord  Jesus Image  John Wilds",   file: "media/Shout to The Lord  Jesus Image  John Wilds.mp3" },
   ],
 };
+// 🎵 Auto-convert Google Drive /view links to direct playable URLs
+function fixGoogleDriveLinks(data) {
+  Object.keys(data).forEach(section => {
+    data[section] = data[section].map(item => {
+      if (item.file && item.file.includes("drive.google.com/file/d/") && item.file.includes("/view")) {
+        const idMatch = item.file.match(/\/d\/(.*?)\/view/);
+        if (idMatch && idMatch[1]) {
+          item.file = `https://drive.google.com/uc?export=download&id=${idMatch[1]}`;
+        }
+      }
+      return item;
+    });
+  });
+  return data;
+}
+
+// ✅ Call it right after defining musicData
+fixGoogleDriveLinks(musicData);
+
 
 // 🎯 Modal
 function showModal(message) {
@@ -165,14 +188,17 @@ function loadTab(tab) {
     }
     const grid = document.createElement("div");
     grid.className = "sustain-grid";
+    const padColors = ["#00bfff", "#ff6600", "#ff33cc", "#33ff99", "#ffff33", "#ff3333", "#33ccff"];
     list.forEach(pad => {
       const padDiv = document.createElement("div");
       padDiv.className = "pad";
-      padDiv.style.setProperty("--pad-color", pad.color);
+      const color = pad.color || padColors[Math.floor(Math.random() * padColors.length)];
+      padDiv.style.setProperty("--pad-color", color);
       padDiv.innerHTML = `
-        <span class="pad-label">${pad.label}</span>
-        <button class="pad-star">${lineup.find(s => s.title === pad.label) ? "⭐" : "☆"}</button>
+        <span class="pad-label">${pad.title}</span>
+        <button class="pad-star">${lineup.find(s => s.title === pad.title) ? "⭐" : "☆"}</button>
       `;
+
       const audio = new Audio(pad.file);
       audio.loop = true;
       const starBtn = padDiv.querySelector(".pad-star");
@@ -186,27 +212,27 @@ function loadTab(tab) {
           document.querySelectorAll(".pad").forEach(p => p.classList.remove("active"));
           audio.play();
           padDiv.classList.add("active");
-          updatePlayerBar({ title: pad.label, file: pad.file }, audio);
+          updatePlayerBar({ title: pad.title, file: pad.file }, audio);
         }
       });
 
       starBtn.addEventListener("click", e => {
         e.stopPropagation();
-        const exists = lineup.find(s => s.title === pad.label);
+        const exists = lineup.find(s => s.title === pad.title);
         if (exists) {
-          lineup = lineup.filter(s => s.title !== pad.label);
+          lineup = lineup.filter(s => s.title !== pad.title);
           starBtn.textContent = "☆";
-          showModal(`❌ Removed "${pad.label}"`);
+          showModal(`❌ Removed "${pad.title}"`);
         } else {
-          lineup.push({ title: pad.label, file: pad.file, type: "pad" });
+          lineup.push({ title: pad.title, file: pad.file, type: "pad" });
           starBtn.textContent = "⭐";
-          showModal(`⭐ Added "${pad.label}"`);
+          showModal(`⭐ Added "${pad.title}"`);
         }
         saveLineup();
         renderLineupSidebar();
       });
 
-      if (lastPlaying.title === pad.label && lastPlaying.tab === "sustain") {
+      if (lastPlaying.title === pad.title && lastPlaying.tab === "sustain") {
         padDiv.classList.add("active");
       }
       grid.appendChild(padDiv);
