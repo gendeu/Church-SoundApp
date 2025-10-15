@@ -21,15 +21,22 @@ const musicData = {
     { title: "Opening Tune", file: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
   ],
 
-  // Sustain section with pads
-  sustain: [
-    { label: "A", color: "#00bfff", file: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
-    { label: "B", color: "#ff69b4", file: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" },
-    { label: "C", color: "#32cd32", file: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3" },
-    { label: "D", color: "#ffa500", file: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3" },
-    { label: "E", color: "#9370db", file: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3" },
-    { label: "F", color: "#ff4500", file: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" },
-  ],
+// Sustain section with real musical keys (2-row layout)
+sustain: [
+  { label: "C", color: "#00bfff", file: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
+  { label: "C# / Db", color: "#ff69b4", file: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
+  { label: "D", color: "#32cd32", file: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
+  { label: "D# / Eb", color: "#ffa500", file: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" },
+  { label: "E", color: "#9370db", file: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3" },
+  { label: "F", color: "#ff4500", file: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3" },
+  { label: "F# / Gb", color: "#00fa9a", file: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3" },
+  { label: "G", color: "#20b2aa", file: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" },
+  { label: "G# / Ab", color: "#ff6347", file: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3" },
+  { label: "A", color: "#ba55d3", file: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3" },
+  { label: "A# / Bb", color: "#1e90ff", file: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-11.mp3" },
+  { label: "B", color: "#adff2f", file: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-12.mp3" },
+],
+
 
   preach: [
     { title: "Grace Theme", file: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
@@ -153,7 +160,7 @@ function loadTab(tab) {
           starBtn.textContent = "☆";
           showModal(`❌ Removed "${pad.label}" from Line Up`);
         } else {
-          lineup.push({ title: pad.label, file: pad.file });
+          lineup.push({ title: pad.label, file: pad.file, type: "pad" });
           starBtn.textContent = "⭐";
           showModal(`⭐ Added "${pad.label}" to Line Up`);
         }
@@ -178,7 +185,7 @@ function loadTab(tab) {
     const isBookmarked = lineup.find(s => s.title === song.title);
     div.className = "song";
     div.innerHTML = `
-      <span class="song-title">${song.title}</span>
+      <span class="song-title">${song.type === "pad" ? "🎹" : "🔊"} ${song.title}</span>
       <div>
         <button class="play">▶</button>
         <button class="bookmark">${isBookmarked ? "⭐" : "☆"}</button>
@@ -292,7 +299,7 @@ function renderLineupSidebar() {
     const div = document.createElement("div");
     div.className = "song";
     div.innerHTML = `
-      <span class="song-title">${song.title}</span>
+      <span class="song-title">${song.type === "pad" ? "🎹" : "🔊"} ${song.title}</span>
       <div>
         <button class="play">▶</button>
         <button class="remove">❌</button>
