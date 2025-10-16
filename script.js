@@ -438,17 +438,17 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
-    // 📱 Touch drag support for mobile
+    // 📱 Touch drag support for mobile (fixed order saving)
     let touchTimer = null;
     let touchDragged = null;
     let touchStartY = 0;
 
     lineupContent.querySelectorAll(".song").forEach(item => {
       item.addEventListener("touchstart", e => {
-        if (!isEditingLineup) return; // Only draggable when in edit mode
+        if (!isEditingLineup) return; // Only allow when editing
         touchStartY = e.touches[0].clientY;
 
-        // 🕒 Long press to start drag
+        // ⏱ Long press to activate drag
         touchTimer = setTimeout(() => {
           touchDragged = item;
           item.classList.add("dragging");
@@ -475,6 +475,7 @@ document.addEventListener("DOMContentLoaded", () => {
           const after = (currentY - rect.top) > rect.height / 2;
           lineupContent.insertBefore(touchDragged, after ? target.nextSibling : target);
         }
+
         touchStartY = currentY;
       }, { passive: false });
 
@@ -486,20 +487,26 @@ document.addEventListener("DOMContentLoaded", () => {
         touchDragged.classList.remove("dragging");
         touchDragged = null;
 
-        // ✅ Save new order after drag
-        const newOrder = Array.from(lineupContent.children).map(el => {
-          const titleText = el.querySelector(".song-title")?.textContent.replace(/^[🎹🔊]\s*/, "").trim();
-          return lineup.find(s => s.title === titleText);
-        }).filter(Boolean);
+        // ✅ Rebuild lineup safely by matching song titles
+        const newOrder = Array.from(lineupContent.children)
+          .map(el => {
+            const title = el.querySelector(".song-title")
+              ?.textContent.replace(/^[🎹🔊]\s*/, "").trim();
+            return lineup.find(song => song.title === title);
+          })
+          .filter(Boolean);
 
-        lineup = newOrder;
-        saveLineup();
-        renderLineupSidebar();
+        if (newOrder.length) {
+          lineup = newOrder;
+          saveLineup();
+          renderLineupSidebar();
+        }
       };
 
       item.addEventListener("touchend", finishTouch);
       item.addEventListener("touchcancel", finishTouch);
     });
+
 
     
     const editBtn = document.getElementById("edit-lineup-toggle");
