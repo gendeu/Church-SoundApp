@@ -439,40 +439,68 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // 📱 Touch drag support for mobile
+    let touchTimer = null;
+    let touchDragged = null;
     let touchStartY = 0;
-    let draggedEl = null;
 
     lineupContent.querySelectorAll(".song").forEach(item => {
       item.addEventListener("touchstart", e => {
+        if (!isEditingLineup) return; // Only draggable when in edit mode
         touchStartY = e.touches[0].clientY;
-        draggedEl = item;
-        item.classList.add("dragging");
-      });
+
+        // 🕒 Long press to start drag
+        touchTimer = setTimeout(() => {
+          touchDragged = item;
+          item.classList.add("dragging");
+        }, 250);
+      }, { passive: true });
 
       item.addEventListener("touchmove", e => {
-        if (!draggedEl) return;
+        if (!touchDragged) return;
+        e.preventDefault();
         const currentY = e.touches[0].clientY;
-        const direction = currentY > touchStartY ? "down" : "up";
-        touchStartY = currentY;
 
-        const sibling = direction === "down" ? draggedEl.nextElementSibling : draggedEl.previousElementSibling;
-        if (sibling && sibling.classList.contains("song")) {
-          if (direction === "down") sibling.after(draggedEl);
-          else sibling.before(draggedEl);
+        const siblings = Array.from(lineupContent.children).filter(s => s !== touchDragged);
+        let target = null;
+        for (const s of siblings) {
+          const rect = s.getBoundingClientRect();
+          if (currentY > rect.top && currentY < rect.bottom) {
+            target = s;
+            break;
+          }
         }
-      });
 
-      item.addEventListener("touchend", () => {
-        if (!draggedEl) return;
-        draggedEl.classList.remove("dragging");
+        if (target) {
+          const rect = target.getBoundingClientRect();
+          const after = (currentY - rect.top) > rect.height / 2;
+          lineupContent.insertBefore(touchDragged, after ? target.nextSibling : target);
+        }
+        touchStartY = currentY;
+      }, { passive: false });
 
-        // Save new order
-        lineup = Array.from(lineupContent.children).map((el, idx) => lineup[idx]);
+      const finishTouch = () => {
+        clearTimeout(touchTimer);
+        touchTimer = null;
+
+        if (!touchDragged) return;
+        touchDragged.classList.remove("dragging");
+        touchDragged = null;
+
+        // ✅ Save new order after drag
+        const newOrder = Array.from(lineupContent.children).map(el => {
+          const titleText = el.querySelector(".song-title")?.textContent.replace(/^[🎹🔊]\s*/, "").trim();
+          return lineup.find(s => s.title === titleText);
+        }).filter(Boolean);
+
+        lineup = newOrder;
         saveLineup();
         renderLineupSidebar();
-        draggedEl = null;
-      });
+      };
+
+      item.addEventListener("touchend", finishTouch);
+      item.addEventListener("touchcancel", finishTouch);
     });
+
     
     const editBtn = document.getElementById("edit-lineup-toggle");
     if (editBtn) {
