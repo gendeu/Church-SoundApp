@@ -19,18 +19,20 @@ let lastPlaying = { title: null, tab: null };
 
 // 🎵 Demo data
 const musicData = {
-  entrance: [
-    { title: "Entrance Song", file: "media/Entrance.mp3" },
-    { title: "Welcome Song", file: "media/SoundHelix-Song-1.mp3" },
-    { title: "Opening Tune", file: "media/SoundHelix-Song-2.mp3" },
-    { title: "Grace Theme", file: "media/SoundHelix-Song-3.mp3" },
-    { title: "Faith Message", file: "media/SoundHelix-Song-4.mp3" },
-    { title: "Witness Jam", file: "media/SoundHelix-Song-5.mp3" },
-    { title: "Praise Beat", file: "media/SoundHelix-Song-6.mp3" },
-    { title: "Champion Anthem", file: "media/SoundHelix-Song-7.mp3" },
-    { title: "Final Glory", file: "media/SoundHelix-Song-8.mp3" },
+  intro: [
+    { title: "A Worship Intro by Motion Worship", file: "media/intro/A Worship Intro by Motion Worship.mp3" },
+    { title: "Worship Intro", file: "media/intro/WORSHIP INTRO.mp3" },
+    { title: "Worship Service Opener & Intro", file: "media/intro/WORSHIP Service Opener.mp3" },
+    { title: "There's A Place For You Here", file: "media/intro/There's A Place For You Here.mp3" },
+    { title: "Live For Christ Every Day Worship Opener", file: "media/intro/Live For Christ Every Day Worship Opener.mp3" },
+    { title: "Are You Ready Countdown", file: "media/intro/Are You Ready Countdown.mp3" },
+    { title: "We Come To Worship Intro", file: "media/intro/We Come To Worship.mp3" },
+    { title: "Welcome To Our Church", file: "media/intro/Welcome To Our Church.mp3" },
+    { title: "Host Entrance Background Music", file: "media/intro/Host Entrance Background Music.mp3" },
+    { title: "5 Minute Church Countdown Timer", file: "media/intro/5 mins. Church countdown timer.mp3" },
+    { title: "10 Second Countdown Timer", file: "media/intro/10 Second CountDown Timer.mp3" }
   ],
-  sustain: [
+  pads: [
     { title: "C",   file: "media/pads/pad_C.mp3" },
     { title: "C#",  file: "media/pads/pad_Csharp.mp3" },
     { title: "D",   file: "media/pads/pad_D.mp3" },
@@ -45,33 +47,62 @@ const musicData = {
     { title: "B",   file: "media/pads/pad_B.mp3" }
   ],
   emotion: [
-    { title: "Prayer Ambiance Sound",   file: "media/Preach 1.mp3" },
-    { title: "Relax Sustain Sound",   file: "media/Preach 2.mp3" },
-    { title: "Speak Lord background Sound",   file: "media/Preach 3.mp3" },
-    { title: "Piano Emotional Sound 1",   file: "media/Testimony 1.mp3" },
-    { title: "Piano Powerful Sound",   file: "media/Testimony 2.mp3" },
-    { title: "Piano Emotional Sound 2",   file: "media/Testimony 3.mp3" },
-    { title: "Piano Emotional Sound 3",   file: "media/Testimony 4.mp3" },
+    { title: "Prayer Ambiance Sound",   file: "media/emotion/Preach 1.mp3" },
+    { title: "Relax Sustain Sound",   file: "media/emotion/Preach 2.mp3" },
+    { title: "Speak Lord background Sound",   file: "media/emotion/Preach 3.mp3" },
+    { title: "Piano Emotional Sound Slow",   file: "media/emotion/Testimony 1.mp3" },
+    { title: "Piano Powerful Sound",   file: "media/emotion/Testimony 2.mp3" },
+    { title: "Piano Play & Sustain Emotion",   file: "media/emotion/Testimony 3.mp3" },
+    { title: "Piano Emotional Sound Heavy",   file: "media/emotion/Testimony 4.mp3" },
   ],
   effects: [
-    { title: "Awkward Laughing Meme",   file: "media/Awkward Laughing Meme.mp3" },
-    { title: "Riser - Sound Effect",   file: "media/Riser-Sound Effect.mp3" },
+    { title: "Wind Sound", file: "media/effects/Wind Sound SOUND EFFECT.mp3" },
+    { title: "Thunder Sound", file: "media/effects/Thunder Sound effect.mp3" },
+    { title: "Industrial Ceiling Fans", file: "media/effects/Industrial Ceiling Fans.mp3" },
+    { title: "Large Crowd Applause", file: "media/effects/Large Crowd Applause.mp3" },
+    { title: "Aww Sound", file: "media/effects/Aww Sound Effect.mp3" },
+    { title: "Audience Clapping", file: "media/effects/Audience Clapping - Sound Effect.mp3" },
+    { title: "Guitar Riff Meme", file: "media/effects/Guitar riff meme.mp3" },
+    { title: "THX Deep Note", file: "media/effects/THX Deep Note.mp3" },
+    { title: "Just Can't Prove It", file: "media/effects/Just can't prove it.mp3" },
+    { title: "Roblox Death Sound", file: "media/effects/Roblox death sound effect.mp3" },
+    { title: "MLG Air Horn", file: "media/effects/MLG AIR HORN sound effect.mp3" },
+    { title: "Illuminati Confirmed", file: "media/effects/Illuminati Confirmed sound effect.mp3" },
+    { title: "Air Horn Sad Violin", file: "media/effects/Air Horn Sad Violin sound effect.mp3" },
+    { title: "To Be Continued", file: "media/effects/To Be Continued sound effect.mp3" },
+    { title: "Aughhhhhh - Loud Snoring", file: "media/effects/Loud Snoring.mp3" },
+    { title: "Taco Bell Bong", file: "media/effects/Taco Bell Bong sound effect.mp3" },
+    { title: "Benny Hill Theme", file: "media/effects/Benny Hill.mp3" },
+    { title: "Look At This Dude", file: "media/effects/Look At This Dude - Sound Effect [HQ].mp3" },
+    { title: "Run Meme", file: "media/effects/Run Meme - Sound Effect [HQ].mp3" },
+    { title: "Fail Horn", file: "media/effects/Fail Horn - Sound Effect [HQ].mp3" },
+    { title: "Spongebob 2000 Years Later", file: "media/effects/2000 Years Later.mp3" },
+    { title: "I have an idea - Ding Sound", file: "media/effects/Ding - Sound Effect [HQ].mp3" },
+    { title: "Windows XP Shutdown", file: "media/effects/Windows XP Shutdown.mp3" },
+    { title: "Final Fantasy Victory Fanfare", file: "media/effects/Final Fantasy Victory Fanfare.mp3" },
+    { title: "Applause", file: "media/effects/Applause.mp3" },
+    { title: "Wii Music", file: "media/effects/Wii Music - Gaming Background Music.mp3" },
+    { title: "Metal Gear Solid Alert", file: "media/effects/metal gear solid sound effect (Alert).mp3" },
+    { title: "Party Troll Song", file: "media/effects/party troll song by D1ofAquavibe.mp3" },
+    { title: "Suspense/Dramatic Horns", file: "media/effects/Dramatic Horns.mp3" },
+    { title: "Drum Roll", file: "media/effects/Drum roll sound effect.mp3" },
+    { title: "Toink Sound", file: "media/effects/Toink sound effect.mp3" }
   ],
   songs: [
-    { title: "I Am Free - Michael Gungor",   file: "media/I Am Free.mp3" },
-    { title: "You are good - Michael Gungor",   file: "media/You Are Good.mp3" },
-    { title: "Turn it Up - Planetshakers",   file: "media/Turn It Up.mp3" },
-    { title: "Ang Lahat ay Magsasaya",   file: "media/Ang Lahat ay Magsasaya.mp3" },
-    { title: "Battle Cry",   file: "media/Battle Cry.mp3" },
-    { title: "Break Every Chain  -  Elevation Worship",   file: "media/Break Every Chain  -  Elevation Worship.mp3" },
-    { title: "Holy Forever  We Fall Down  Live Worship",   file: "media/Holy Forever  We Fall Down  Live Worship.mp3" },
-    { title: "Hosanna- Starfield",   file: "media/Hosanna- Starfield.mp3" },
-    { title: "I Sing Praises  LIVE  Calvary Orlando  Josue Avila",   file: "media/I Sing Praises  LIVE  Calvary Orlando  Josue Avila.mp3" },
-    { title: "I Surrender - Hillsong Worship",   file: "media/I Surrender - Hillsong Worship.mp3" },
-    { title: "LANGIT Instrumental by MP Music",   file: "media/LANGIT Instrumental by MP Music.mp3" },
-    { title: "PUPURIHIN KA SA AWIT  DIYOS KA SA AMIN - HIS LIFE WORSHIP",   file: "media/PUPURIHIN KA SA AWIT  DIYOS KA SA AMIN - HIS LIFE WORSHIP.mp3" },
-    { title: "SALAMAT SALAMAT INSTRUMENTAL",   file: "media/SALAMAT SALAMAT INSTRUMENTAL.mp3" },
-    { title: "Shout to The Lord  Jesus Image  John Wilds",   file: "media/Shout to The Lord  Jesus Image  John Wilds.mp3" },
+    { title: "I Am Free - Michael Gungor",   file: "media/songs/I Am Free.mp3" },
+    { title: "You are good - Michael Gungor",   file: "media/songs/You Are Good.mp3" },
+    { title: "Turn it Up - Planetshakers",   file: "media/songs/Turn It Up.mp3" },
+    { title: "Ang Lahat ay Magsasaya",   file: "media/songs/Ang Lahat ay Magsasaya.mp3" },
+    { title: "Battle Cry",   file: "media/songs/Battle Cry.mp3" },
+    { title: "Break Every Chain  -  Elevation Worship",   file: "media/songs/Break Every Chain  -  Elevation Worship.mp3" },
+    { title: "Holy Forever  We Fall Down  Live Worship",   file: "media/songs/Holy Forever  We Fall Down  Live Worship.mp3" },
+    { title: "Hosanna- Starfield",   file: "media/songs/Hosanna- Starfield.mp3" },
+    { title: "I Sing Praises  LIVE  Calvary Orlando  Josue Avila",   file: "media/songs/I Sing Praises  LIVE  Calvary Orlando  Josue Avila.mp3" },
+    { title: "I Surrender - Hillsong Worship",   file: "media/songs/I Surrender - Hillsong Worship.mp3" },
+    { title: "LANGIT Instrumental by MP Music",   file: "media/songs/LANGIT Instrumental by MP Music.mp3" },
+    { title: "PUPURIHIN KA SA AWIT  DIYOS KA SA AMIN - HIS LIFE WORSHIP",   file: "media/songs/PUPURIHIN KA SA AWIT  DIYOS KA SA AMIN - HIS LIFE WORSHIP.mp3" },
+    { title: "SALAMAT SALAMAT INSTRUMENTAL",   file: "media/songs/SALAMAT SALAMAT INSTRUMENTAL.mp3" },
+    { title: "Shout to The Lord  Jesus Image  John Wilds",   file: "media/songs/Shout to The Lord  Jesus Image  John Wilds.mp3" },
   ],
 };
 // 🎵 Auto-convert Google Drive /view links to direct playable URLs
@@ -181,7 +212,7 @@ function loadTab(tab) {
   const list = tab === "lineup" ? lineup : musicData[tab];
 
   // Sustain
-  if (tab === "sustain") {
+  if (tab === "pads") {
     if (!list.length) {
       content.innerHTML = "<p style='text-align:center;opacity:0.7;'>No sustain pads yet 🎵</p>";
       return;
@@ -309,7 +340,7 @@ tabs.forEach(btn => {
     loadTab(btn.dataset.tab);
   });
 });
-loadTab("entrance");
+loadTab("intro");
 // === Mobile dropdown ===
 const mobileNavTrigger = document.getElementById("mobile-nav-trigger");
 const mobileNavMenu = document.getElementById("mobile-nav-menu");
