@@ -302,7 +302,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (i === -1) {
           lineup.push(song);
           bookmarkBtn.textContent = "⭐";
-          showModal(`⭐ Added "${song.title}"`);
+          showModal(`⭐ Added "${song.title}" to LineUp List`);
         } else {
           lineup.splice(i, 1);
           bookmarkBtn.textContent = "☆";
