@@ -397,8 +397,22 @@ document.addEventListener("DOMContentLoaded", () => {
         lineup = lineup.filter(s => s.title !== song.title);
         saveLineup();
         showModal(`❌ Removed "${song.title}"`);
+
+        // 🔄 Update bookmark stars across all tabs
+        document.querySelectorAll(".bookmark").forEach(btn => {
+          const title = btn.closest(".song")?.querySelector(".song-title")?.textContent.trim();
+          if (title === song.title) btn.textContent = "☆";
+        });
+
+        // 🔄 Update pad stars too
+        document.querySelectorAll(".pad-star").forEach(btn => {
+          const title = btn.closest(".pad")?.querySelector(".pad-label")?.textContent.trim();
+          if (title === song.title) btn.textContent = "☆";
+        });
+
         renderLineupSidebar();
       });
+
 
       lineupContent.appendChild(div);
     });
