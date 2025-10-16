@@ -197,6 +197,71 @@ document.addEventListener("DOMContentLoaded", () => {
   function loadTab(tab) {
     currentTab = tab;
     content.innerHTML = "";
+    const searchContainer = document.getElementById("search-container");
+    const searchInput = document.getElementById("search-input");
+
+    // Show search only for specific tabs
+    if (["intro", "emotion", "songs"].includes(tab)) {
+      searchContainer.classList.remove("hidden");
+      searchInput.value = "";
+    } else {
+      searchContainer.classList.add("hidden");
+    }
+
+    // 🔍 Search filter logic
+    searchInput.oninput = () => {
+      const query = searchInput.value.toLowerCase();
+      const list = tab === "lineup" ? lineup : musicData[tab];
+      const filtered = list.filter(item => item.title.toLowerCase().includes(query));
+      renderFilteredList(tab, filtered);
+    };
+
+    // helper: re-render filtered items only
+    function renderFilteredList(tab, filteredList) {
+      content.innerHTML = "";
+      filteredList.forEach(song => {
+        const div = document.createElement("div");
+        const isBookmarked = lineup.find(s => s.title === song.title);
+        div.className = "song";
+        div.innerHTML = `
+          <span class="song-title">${song.title}</span>
+          <div><button class="play">▶</button><button class="bookmark">${isBookmarked ? "⭐" : "☆"}</button></div>
+        `;
+        const playBtn = div.querySelector(".play");
+        const bookmarkBtn = div.querySelector(".bookmark");
+        const audio = new Audio(song.file);
+        audio.loop = true;
+
+        playBtn.addEventListener("click", () => {
+          if (currentAudio && currentAudio !== audio) stopCurrentAudio();
+          if (currentAudio === audio && !audio.paused) {
+            stopCurrentAudio(true);
+          } else {
+            document.querySelectorAll(".song").forEach(s => s.classList.remove("playing"));
+            audio.play();
+            div.classList.add("playing");
+            updatePlayerBar(song, audio, playBtn);
+          }
+        });
+
+        bookmarkBtn.addEventListener("click", () => {
+          const i = lineup.findIndex(s => s.title === song.title);
+          if (i === -1) {
+            lineup.push(song);
+            bookmarkBtn.textContent = "⭐";
+            showModal(`⭐ Added "${song.title}"`);
+          } else {
+            lineup.splice(i, 1);
+            bookmarkBtn.textContent = "☆";
+            showModal(`❌ Removed "${song.title}"`);
+          }
+          saveLineup();
+          renderLineupSidebar();
+        });
+
+        content.appendChild(div);
+      });
+    }
 
     const list = tab === "lineup" ? lineup : musicData[tab];
     if (!list || !list.length) {
