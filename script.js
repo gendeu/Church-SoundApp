@@ -263,6 +263,36 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
 
+    const addMusicBtn = document.getElementById("add-music-btn");
+
+    if (addMusicBtn) {
+      addMusicBtn.addEventListener("click", async () => {
+        // Works for Electron desktop version
+        if (window.electronAPI?.openFileDialog) {
+          const paths = await window.electronAPI.openFileDialog([{ name: "Music Files", extensions: ["mp3"] }]);
+          if (!paths || !paths.length) return;
+
+          // Add selected files to current tab (if applicable)
+          const tab = currentTab;
+          if (!["intro", "emotion", "songs"].includes(tab)) {
+            showModal("⚠️ Adding music is only supported in Intro, Emotion, or Songs tabs.");
+            return;
+          }
+
+          paths.forEach(filePath => {
+            const fileName = filePath.split(/[\\/]/).pop().replace(/\.[^/.]+$/, "");
+            musicData[tab].push({ title: fileName, file: filePath });
+          });
+
+          showModal(`🎵 Added ${paths.length} new track(s)!`);
+          loadTab(tab);
+        } else {
+          showModal("⚠️ Music upload is available only in the desktop app.");
+        }
+      });
+    }
+
+
     const list = tab === "lineup" ? lineup : musicData[tab];
     if (!list || !list.length) {
       content.innerHTML = "<p style='text-align:center;opacity:0.7;'>No items yet 🎵</p>";
