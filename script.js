@@ -449,21 +449,26 @@ document.addEventListener("DOMContentLoaded", () => {
         saveLineup();
         showModal(`❌ Removed "${song.title}"`);
 
-        // 🔄 Update bookmark stars across all tabs
-        document.querySelectorAll(".bookmark").forEach(btn => {
-          const title = btn.closest(".song")?.querySelector(".song-title")?.textContent.trim();
+        // 🔄 Unmark in all sections: songs, pads, and effects
+        document.querySelectorAll(".bookmark, .pad-star, .effect-star").forEach(btn => {
+          const title =
+            btn.closest(".song")?.querySelector(".song-title")?.textContent.trim() ||
+            btn.closest(".pad")?.querySelector(".pad-label")?.textContent.trim() ||
+            btn.closest(".effect-item")?.querySelector(".effect-label")?.textContent.trim();
           if (title === song.title) btn.textContent = "☆";
         });
 
-        // 🔄 Update pad stars too
-        document.querySelectorAll(".pad-star").forEach(btn => {
-          const title = btn.closest(".pad")?.querySelector(".pad-label")?.textContent.trim();
-          if (title === song.title) btn.textContent = "☆";
+        // 🔄 Remove glow/active class across all matching elements
+        document.querySelectorAll(".song, .pad, .effect-item").forEach(el => {
+          const label =
+            el.querySelector(".song-title, .pad-label, .effect-label")?.textContent
+              ?.replace(/^[🎹🔊]\s*/, "")
+              .trim();
+          if (label === song.title) el.classList.remove("playing", "active");
         });
 
         renderLineupSidebar();
       });
-
 
       lineupContent.appendChild(div);
     });
