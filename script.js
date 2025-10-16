@@ -253,7 +253,7 @@ document.addEventListener("DOMContentLoaded", () => {
           } else {
             lineup.push({ title: pad.title, file: pad.file, type: "pad" });
             starBtn.textContent = "⭐";
-            showModal(`⭐ Added "${pad.title}"`);
+            showModal(`⭐ Added "${pad.title}" to LineUp List`);
           }
           saveLineup();
           renderLineupSidebar();
