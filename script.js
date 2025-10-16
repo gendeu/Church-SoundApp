@@ -204,63 +204,114 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-        // === Sustain Pads & Effects (shared grid layout) ===
-    if (tab === "pads" || tab === "effects") {
+        // === Sustain Pads ===
+    if (tab === "pads") {
       const grid = document.createElement("div");
       grid.className = "sustain-grid";
       const padColors = ["#00bfff", "#ff6600", "#ff33cc", "#33ff99", "#ffff33", "#ff3333", "#33ccff"];
 
-      list.forEach(item => {
-        const div = document.createElement("div");
-        div.className = "pad";
+      list.forEach(pad => {
+        const padDiv = document.createElement("div");
+        padDiv.className = "pad";
         const color = padColors[Math.floor(Math.random() * padColors.length)];
-        div.style.setProperty("--pad-color", color);
-        div.innerHTML = `
-          <span class="pad-label">${item.title}</span>
-          <button class="pad-star">${lineup.find(s => s.title === item.title) ? "⭐" : "☆"}</button>
+        padDiv.style.setProperty("--pad-color", color);
+        padDiv.innerHTML = `
+          <span class="pad-label">${pad.title}</span>
+          <button class="pad-star">${lineup.find(s => s.title === pad.title) ? "⭐" : "☆"}</button>
         `;
 
-        const audio = new Audio(item.file);
+        const audio = new Audio(pad.file);
         audio.loop = true;
-        const starBtn = div.querySelector(".pad-star");
+        const starBtn = padDiv.querySelector(".pad-star");
 
-        div.addEventListener("click", () => {
+        padDiv.addEventListener("click", () => {
           if (currentAudio && currentAudio !== audio) stopCurrentAudio();
           if (currentAudio === audio && !audio.paused) {
             stopCurrentAudio(true);
-            div.classList.remove("active");
+            padDiv.classList.remove("active");
           } else {
             document.querySelectorAll(".pad").forEach(p => p.classList.remove("active"));
             audio.play();
-            div.classList.add("active");
-            updatePlayerBar({ title: item.title, file: item.file }, audio);
-
-            // 🔄 sync glow with lineup
-            document.querySelectorAll(".song").forEach(s => {
-              const t = s.querySelector(".song-title")?.textContent.trim();
-              if (t === item.title) s.classList.add("playing");
-            });
+            padDiv.classList.add("active");
+            updatePlayerBar({ title: pad.title, file: pad.file }, audio);
           }
         });
 
         starBtn.addEventListener("click", e => {
           e.stopPropagation();
-          const exists = lineup.find(s => s.title === item.title);
+          const exists = lineup.find(s => s.title === pad.title);
           if (exists) {
-            lineup = lineup.filter(s => s.title !== item.title);
+            lineup = lineup.filter(s => s.title !== pad.title);
             starBtn.textContent = "☆";
-            showModal(`❌ Removed "${item.title}"`);
+            showModal(`❌ Removed "${pad.title}"`);
           } else {
-            lineup.push({ title: item.title, file: item.file, type: tab });
+            lineup.push({ title: pad.title, file: pad.file, type: "pad" });
             starBtn.textContent = "⭐";
-            showModal(`⭐ Added "${item.title}" to LineUp List`);
+            showModal(`⭐ Added "${pad.title}"`);
           }
           saveLineup();
           renderLineupSidebar();
         });
 
-        grid.appendChild(div);
+        grid.appendChild(padDiv);
       });
+      content.appendChild(grid);
+      return;
+    }
+
+    // === Effects Grid (Separate layout) ===
+    if (tab === "effects") {
+      const grid = document.createElement("div");
+      grid.className = "effects-grid"; // ✅ use the correct grid
+      const effectColors = ["#ffb84d", "#66ccff", "#ff66a3", "#99ff99", "#ffd966", "#ff6666", "#66ffff"];
+
+      list.forEach(effect => {
+        const effectBox = document.createElement("div");
+        effectBox.className = "effect-item";
+        const color = effectColors[Math.floor(Math.random() * effectColors.length)];
+        effectBox.style.setProperty("--effect-color", color);
+        effectBox.innerHTML = `
+          <span class="effect-label">${effect.title}</span>
+          <button class="effect-star">${lineup.find(s => s.title === effect.title) ? "⭐" : "☆"}</button>
+        `;
+
+        const audio = new Audio(effect.file);
+        const starBtn = effectBox.querySelector(".effect-star");
+
+        // 🎧 Click to play
+        effectBox.addEventListener("click", () => {
+          if (currentAudio && currentAudio !== audio) stopCurrentAudio();
+          if (currentAudio === audio && !audio.paused) {
+            stopCurrentAudio(true);
+            effectBox.classList.remove("active");
+          } else {
+            document.querySelectorAll(".effect-item").forEach(e => e.classList.remove("active"));
+            audio.play();
+            effectBox.classList.add("active");
+            updatePlayerBar({ title: effect.title, file: effect.file }, audio);
+          }
+        });
+
+        // ⭐ Bookmark toggle
+        starBtn.addEventListener("click", e => {
+          e.stopPropagation();
+          const exists = lineup.find(s => s.title === effect.title);
+          if (exists) {
+            lineup = lineup.filter(s => s.title !== effect.title);
+            starBtn.textContent = "☆";
+            showModal(`❌ Removed "${effect.title}"`);
+          } else {
+            lineup.push({ title: effect.title, file: effect.file, type: "effect" });
+            starBtn.textContent = "⭐";
+            showModal(`⭐ Added "${effect.title}"`);
+          }
+          saveLineup();
+          renderLineupSidebar();
+        });
+
+        grid.appendChild(effectBox);
+      });
+
       content.appendChild(grid);
       return;
     }

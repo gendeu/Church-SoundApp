@@ -306,6 +306,92 @@ audio {
   transform: scale(1.03);
 }
 
+/* === Effects Grid (Perfect Square Layout) === */
+.effects-grid {
+  display: grid;
+  width: 100%;
+  gap: 1.2rem;
+  padding: 1rem;
+  justify-content: center;
+  align-items: stretch;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+/* Perfect squares, equal size */
+.effect-item {
+  position: relative;
+  max-height: 100px;
+  width: 100%;
+  background: #1e1e1e;
+  border: 2px solid #333;
+  border-radius: 16px;
+  color: white;
+  font-weight: 600;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  aspect-ratio: 1 / 1; /* ✅ keeps them perfectly square */
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s ease;
+}
+
+.effect-item:hover {
+  transform: scale(1.03);
+  border-color: var(--effect-color, #ffb84d);
+}
+
+.effect-item.active {
+  box-shadow: 0 0 25px var(--effect-color, #ffb84d);
+  border-color: var(--effect-color, #ffb84d);
+}
+
+.effect-label {
+  padding: 0 10px;
+  font-size: 1rem;
+  line-height: 1.3;
+  text-wrap: balance;
+}
+
+.effect-star {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  font-size: 1.4rem;
+  background: none;
+  border: none;
+  color: #ccc;
+  cursor: pointer;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.effect-star:hover {
+  transform: scale(1.2);
+  color: gold;
+}
+
+/* 📱 Responsive column counts */
+@media (min-width: 1200px) {
+  .effects-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 1024px) {
+  .effects-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .effects-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 #player-bar {
   position: fixed;
   bottom: 0;
