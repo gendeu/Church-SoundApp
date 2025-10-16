@@ -438,20 +438,21 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
-    // 📱 Touch drag support for mobile (fixed order saving)
+    // 📱 Touch drag support for mobile (stable version)
     let touchTimer = null;
     let touchDragged = null;
     let touchStartY = 0;
 
     lineupContent.querySelectorAll(".song").forEach(item => {
       item.addEventListener("touchstart", e => {
-        if (!isEditingLineup) return; // Only allow when editing
+        if (!isEditingLineup) return;
         touchStartY = e.touches[0].clientY;
 
-        // ⏱ Long press to activate drag
+        // ⏱ long-press to activate drag
         touchTimer = setTimeout(() => {
           touchDragged = item;
           item.classList.add("dragging");
+          document.body.style.userSelect = "none"; // prevent highlighting
         }, 250);
       }, { passive: true });
 
@@ -475,39 +476,36 @@ document.addEventListener("DOMContentLoaded", () => {
           const after = (currentY - rect.top) > rect.height / 2;
           lineupContent.insertBefore(touchDragged, after ? target.nextSibling : target);
         }
-
         touchStartY = currentY;
       }, { passive: false });
 
       const finishTouch = () => {
         clearTimeout(touchTimer);
+        document.body.style.userSelect = "";
         touchTimer = null;
 
         if (!touchDragged) return;
         touchDragged.classList.remove("dragging");
-        touchDragged = null;
 
-        // ✅ Rebuild lineup safely by matching song titles
-        const newOrder = Array.from(lineupContent.children)
-          .map(el => {
-            const title = el.querySelector(".song-title")
-              ?.textContent.replace(/^[🎹🔊]\s*/, "").trim();
-            return lineup.find(song => song.title === title);
-          })
-          .filter(Boolean);
+        // ✅ Build new lineup order safely by matching DOM to lineup
+        const newOrder = Array.from(lineupContent.children).map(el => {
+          const title = el.querySelector(".song-title")?.textContent.replace(/^[🎹🔊]\s*/, "").trim();
+          return lineup.find(song => song.title === title);
+        }).filter(Boolean);
 
-        if (newOrder.length) {
+        if (newOrder.length === lineup.length) {
           lineup = newOrder;
           saveLineup();
-          renderLineupSidebar();
         }
+
+        // 🔁 Re-render after short delay to ensure stable DOM
+        setTimeout(renderLineupSidebar, 150);
+        touchDragged = null;
       };
 
       item.addEventListener("touchend", finishTouch);
       item.addEventListener("touchcancel", finishTouch);
     });
-
-
     
     const editBtn = document.getElementById("edit-lineup-toggle");
     if (editBtn) {
