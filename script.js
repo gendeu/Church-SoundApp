@@ -204,62 +204,62 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // === Sustain Pads ===
-    if (tab === "pads") {
+        // === Sustain Pads & Effects (shared grid layout) ===
+    if (tab === "pads" || tab === "effects") {
       const grid = document.createElement("div");
       grid.className = "sustain-grid";
       const padColors = ["#00bfff", "#ff6600", "#ff33cc", "#33ff99", "#ffff33", "#ff3333", "#33ccff"];
 
-      list.forEach(pad => {
-        const padDiv = document.createElement("div");
-        padDiv.className = "pad";
+      list.forEach(item => {
+        const div = document.createElement("div");
+        div.className = "pad";
         const color = padColors[Math.floor(Math.random() * padColors.length)];
-        padDiv.style.setProperty("--pad-color", color);
-        padDiv.innerHTML = `
-          <span class="pad-label">${pad.title}</span>
-          <button class="pad-star">${lineup.find(s => s.title === pad.title) ? "⭐" : "☆"}</button>
+        div.style.setProperty("--pad-color", color);
+        div.innerHTML = `
+          <span class="pad-label">${item.title}</span>
+          <button class="pad-star">${lineup.find(s => s.title === item.title) ? "⭐" : "☆"}</button>
         `;
 
-        const audio = new Audio(pad.file);
+        const audio = new Audio(item.file);
         audio.loop = true;
-        const starBtn = padDiv.querySelector(".pad-star");
+        const starBtn = div.querySelector(".pad-star");
 
-        padDiv.addEventListener("click", () => {
+        div.addEventListener("click", () => {
           if (currentAudio && currentAudio !== audio) stopCurrentAudio();
           if (currentAudio === audio && !audio.paused) {
             stopCurrentAudio(true);
-            padDiv.classList.remove("active");
+            div.classList.remove("active");
           } else {
             document.querySelectorAll(".pad").forEach(p => p.classList.remove("active"));
             audio.play();
-            padDiv.classList.add("active");
-            updatePlayerBar({ title: pad.title, file: pad.file }, audio);
+            div.classList.add("active");
+            updatePlayerBar({ title: item.title, file: item.file }, audio);
 
             // 🔄 sync glow with lineup
             document.querySelectorAll(".song").forEach(s => {
               const t = s.querySelector(".song-title")?.textContent.trim();
-              if (t === pad.title) s.classList.add("playing");
+              if (t === item.title) s.classList.add("playing");
             });
           }
         });
 
         starBtn.addEventListener("click", e => {
           e.stopPropagation();
-          const exists = lineup.find(s => s.title === pad.title);
+          const exists = lineup.find(s => s.title === item.title);
           if (exists) {
-            lineup = lineup.filter(s => s.title !== pad.title);
+            lineup = lineup.filter(s => s.title !== item.title);
             starBtn.textContent = "☆";
-            showModal(`❌ Removed "${pad.title}"`);
+            showModal(`❌ Removed "${item.title}"`);
           } else {
-            lineup.push({ title: pad.title, file: pad.file, type: "pad" });
+            lineup.push({ title: item.title, file: item.file, type: tab });
             starBtn.textContent = "⭐";
-            showModal(`⭐ Added "${pad.title}" to LineUp List`);
+            showModal(`⭐ Added "${item.title}" to LineUp List`);
           }
           saveLineup();
           renderLineupSidebar();
         });
 
-        grid.appendChild(padDiv);
+        grid.appendChild(div);
       });
       content.appendChild(grid);
       return;
