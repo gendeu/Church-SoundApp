@@ -255,7 +255,7 @@ audio {
 
 .pad {
   position: relative;
-  background: #1c1c1c;
+  background: black;
   border: 2px solid #444;
   border-radius: 12px;
   text-align: center;
@@ -303,92 +303,97 @@ audio {
   border-color: var(--pad-color);
   box-shadow: 0 0 15px var(--pad-color), 0 0 25px var(--pad-color);
   color: var(--pad-color);
-  transform: scale(1.03);
+  transform: scale(1.1);
 }
 
-/* === Effects Grid (Perfect Square Layout) === */
+/* === EFFECTS GRID (Fully Responsive & No Scrollbar) === */
 .effects-grid {
   display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); /* dynamic columns */
+  gap: 10px;
+  padding: 0.8rem;
   width: 100%;
-  gap: 1.2rem;
-  padding: 1rem;
-  justify-content: center;
-  align-items: stretch;
+  max-width: 100%;
   box-sizing: border-box;
-  overflow-x: hidden;
+  overflow-x: hidden; /* prevent horizontal scroll */
 }
 
-/* Perfect squares, equal size */
-.effect-item {
-  position: relative;
-  max-height: 100px;
-  width: 100%;
-  background: #1e1e1e;
-  border: 2px solid #333;
-  border-radius: 16px;
-  color: white;
-  font-weight: 600;
+.effect {
+  background: linear-gradient(145deg, #181818, var(--effect-color, #444));
+  color: #fff;
+  border-radius: 10px;
   text-align: center;
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 0.8rem 0.5rem;
+  height: 85px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  aspect-ratio: 1 / 1; /* ✅ keeps them perfectly square */
-  cursor: pointer;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
 }
 
-.effect-item:hover {
-  transform: scale(1.03);
-  border-color: var(--effect-color, #ffb84d);
+.effect:hover {
+  transform: scale(1.04);
+  box-shadow: 0 0 10px var(--effect-color, #0ff);
 }
 
-.effect-item.active {
-  box-shadow: 0 0 25px var(--effect-color, #ffb84d);
-  border-color: var(--effect-color, #ffb84d);
+.effect.active {
+  box-shadow: 0 0 18px 3px var(--effect-color, #0ff);
+  transform: scale(1.06);
 }
 
-.effect-label {
-  padding: 0 10px;
-  font-size: 1rem;
-  line-height: 1.3;
-  text-wrap: balance;
+.effect .effect-label {
+  font-weight: 600;
+  margin-bottom: 6px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 
-.effect-star {
-  position: absolute;
-  top: 10px;
-  right: 12px;
-  font-size: 1.4rem;
-  background: none;
+.effect .effect-star {
   border: none;
-  color: #ccc;
+  background: transparent;
+  color: #ffda44;
+  font-size: 1.1rem;
   cursor: pointer;
-  transition: transform 0.2s ease, color 0.2s ease;
+  transition: transform 0.2s;
 }
-
-.effect-star:hover {
+.effect .effect-star:hover {
   transform: scale(1.2);
-  color: gold;
 }
 
-/* 📱 Responsive column counts */
-@media (min-width: 1200px) {
-  .effects-grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
+/* Responsive tweaks */
 @media (max-width: 1024px) {
   .effects-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
   .effects-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    padding: 0.5rem;
+  }
+
+  .effect {
+    height: 80px;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .effects-grid {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 8px;
+  }
+
+  .effect {
+    height: 75px;
   }
 }
 

@@ -259,40 +259,46 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // === Effects Grid (Separate layout) ===
+    // inside loadTab(tab)
     if (tab === "effects") {
       const grid = document.createElement("div");
-      grid.className = "effects-grid"; // ✅ use the correct grid
-      const effectColors = ["#ffb84d", "#66ccff", "#ff66a3", "#99ff99", "#ffd966", "#ff6666", "#66ffff"];
+      grid.className = "effects-grid";
+
+      const effectColors = ["#00bfff", "#ff6600", "#ff33cc", "#33ff99", "#ffff33", "#ff3333", "#33ccff"];
 
       list.forEach(effect => {
-        const effectBox = document.createElement("div");
-        effectBox.className = "effect-item";
+        const effectDiv = document.createElement("div");
+        effectDiv.className = "effect";
         const color = effectColors[Math.floor(Math.random() * effectColors.length)];
-        effectBox.style.setProperty("--effect-color", color);
-        effectBox.innerHTML = `
+        effectDiv.style.setProperty("--effect-color", color);
+        effectDiv.innerHTML = `
           <span class="effect-label">${effect.title}</span>
           <button class="effect-star">${lineup.find(s => s.title === effect.title) ? "⭐" : "☆"}</button>
         `;
 
         const audio = new Audio(effect.file);
-        const starBtn = effectBox.querySelector(".effect-star");
+        audio.loop = true;
+        const starBtn = effectDiv.querySelector(".effect-star");
 
-        // 🎧 Click to play
-        effectBox.addEventListener("click", () => {
+        effectDiv.addEventListener("click", () => {
           if (currentAudio && currentAudio !== audio) stopCurrentAudio();
           if (currentAudio === audio && !audio.paused) {
             stopCurrentAudio(true);
-            effectBox.classList.remove("active");
+            effectDiv.classList.remove("active");
           } else {
-            document.querySelectorAll(".effect-item").forEach(e => e.classList.remove("active"));
+            document.querySelectorAll(".effect").forEach(e => e.classList.remove("active"));
             audio.play();
-            effectBox.classList.add("active");
+            effectDiv.classList.add("active");
             updatePlayerBar({ title: effect.title, file: effect.file }, audio);
+
+            // 🔄 sync glow with lineup
+            document.querySelectorAll(".song").forEach(s => {
+              const t = s.querySelector(".song-title")?.textContent.replace(/[🎹🔊]\s*/, "").trim();
+              if (t === effect.title) s.classList.add("playing");
+            });
           }
         });
 
-        // ⭐ Bookmark toggle
         starBtn.addEventListener("click", e => {
           e.stopPropagation();
           const exists = lineup.find(s => s.title === effect.title);
@@ -309,7 +315,7 @@ document.addEventListener("DOMContentLoaded", () => {
           renderLineupSidebar();
         });
 
-        grid.appendChild(effectBox);
+        grid.appendChild(effectDiv);
       });
 
       content.appendChild(grid);
