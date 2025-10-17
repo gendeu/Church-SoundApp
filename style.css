@@ -1021,10 +1021,13 @@ audio {
 
 @media (max-width: 480px) {
   #search-input {
-    width: 56% !important;
+    width: 50% !important;
     font-size: 0.9rem;
   }
   #search-container {
     justify-content: space-between;
+  }
+  #add-music-btn {
+    width: 34% !important;
   }
 }
