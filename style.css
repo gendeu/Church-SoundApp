@@ -801,7 +801,7 @@ audio {
   }
   .sustain-grid {
     grid-template-columns: repeat(3, 1fr) !important;
-    padding: 0 20px;
+    padding: 20px;
   }
   .sidebar.expanded {
     width: 100%;
