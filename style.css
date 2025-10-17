@@ -510,6 +510,8 @@ audio {
 .mobile-nav-trigger {
   background: linear-gradient(145deg, #1a1a1a, #242424);
   color: #fff;
+  max-height: 22px;
+  min-height: 22px;
   border: 1px solid #333;
   border-radius: 12px;
   padding: 14px 16px;
@@ -957,6 +959,8 @@ audio {
 }
 @media (max-width: 534px) {
   nav {
+    display: flex;
+    align-items: center;
     background: transparent;
     box-shadow: none;
     margin: 0 ;
