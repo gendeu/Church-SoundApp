@@ -607,11 +607,11 @@ audio {
     min-height: auto;
   }
   nav { 
-    min-height: 68px !important;
+    min-height: 53px !important;
     overflow: hidden !important;
   }
   .show-sidebar {
-    top: 142px !important;
+    top: 132px !important;
     left: 58px !important;
     /* padding: 8px 16px !important; */
     font-size: 0.9rem !important;
@@ -795,7 +795,7 @@ audio {
     min-height: 0 !important;
   } */
   .show-sidebar {
-    top: 112px !important;
+    top: 104px !important;
     width: 26% !important;
     padding: 2px 12px 10px 12px;
     /* padding: 6px 12px 14px 12px; */
@@ -952,7 +952,7 @@ audio {
 
 @media (max-width: 534px) and (min-width: 466px) {
   .show-sidebar {
-    top: 129px !important;
+    top: 119px !important;
     left: 41px !important;
     width: 25% !important;
   }
