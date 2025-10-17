@@ -838,8 +838,8 @@ audio {
 
 /* Ensure dropdown items always match trigger width */
 .mobile-nav-menu {
-  width: auto !important;
-  min-width: var(--trigger-width, 0);
+  /* width: auto !important;
+  min-width: var(--trigger-width, 0); */
 }
 
 .mobile-nav-item {
@@ -965,7 +965,7 @@ audio {
     box-shadow: none;
     margin: 0 ;
     padding: 0;
-    height: 64px !important;
+    /* height: 64px !important; */
   }
   #search-container {
     display: flex;  

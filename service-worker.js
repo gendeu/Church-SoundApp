@@ -6,7 +6,14 @@ const FILES_TO_CACHE = [
   './style.css',
   './script.js',
   './manifest.json',
-  './media/',
+  // Cache all local mp3s
+  ...[
+    'media/Entrance.mp3',
+    'media/SoundHelix-Song-1.mp3',
+    'media/SoundHelix-Song-2.mp3',
+    'media/pads/pad_C.mp3',
+    'media/pads/pad_D.mp3',
+  ]
 ];
 
 // Install service worker and cache files
