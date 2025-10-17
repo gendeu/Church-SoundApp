@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
       { title: "Just Can't Prove It", file: "media/effects/Just can't prove it.mp3" },
       { title: "Roblox Death Sound", file: "media/effects/Roblox death sound effect.mp3" },
       { title: "MLG Air Horn", file: "media/effects/MLG AIR HORN sound effect.mp3" },
-      { title: "Illuminati Confirmed", file: "media/effects/Illuminati Confirmed sound effect.mp3" },
+      { title: "Too much thinking", file: "media/effects/Too much thinking.mp3" },
       { title: "Air Horn Sad Violin", file: "media/effects/Air Horn Sad Violin sound effect.mp3" },
       { title: "To Be Continued", file: "media/effects/To Be Continued sound effect.mp3" },
       { title: "Aughhhhhh - Loud Snoring", file: "media/effects/Loud Snoring.mp3" },

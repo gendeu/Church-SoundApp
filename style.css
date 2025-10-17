@@ -795,7 +795,8 @@ audio {
   .show-sidebar {
     top: 112px !important;
     width: 26% !important;
-    padding: 6px 12px 14px 12px;
+    padding: 2px 12px 10px 12px;
+    /* padding: 6px 12px 14px 12px; */
     left: 41px !important;
   }
   .sustain-grid {
