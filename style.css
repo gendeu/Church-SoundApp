@@ -603,8 +603,8 @@ audio {
   }
   .mobile-nav-container {
     display: block;
-    padding: 10px 0;
-    min-height: 54px;
+    /* padding: 10px 0; */
+    min-height: auto;
   }
   nav { 
     min-height: 68px !important;
@@ -791,9 +791,9 @@ audio {
   .title {
     font-size: 12px;
   }
-  nav {
-    min-height: 64px !important;
-  }
+  /* nav {
+    min-height: 0 !important;
+  } */
   .show-sidebar {
     top: 112px !important;
     width: 26% !important;
