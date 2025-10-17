@@ -711,11 +711,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const arrow = document.querySelector(".arrow");
 
   if (mobileNavTrigger && mobileNavMenu) {
+    
     mobileNavTrigger.addEventListener("click", () => {
       mobileNavMenu.classList.toggle("hidden");
       arrow?.classList.toggle("rotated");
+      syncMobileNavWidth();
     });
-
     document.querySelectorAll(".mobile-nav-item").forEach(item => {
       item.addEventListener("click", () => {
         const tabName = item.dataset.tab;

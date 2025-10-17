@@ -519,7 +519,7 @@ audio {
   font-size: 1rem;
   cursor: pointer;
   box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.05);
-  transition: all 0.25s ease;
+  transition: background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
   user-select: none;
 }
 /* ===== Arrow Rotation Animation ===== */
