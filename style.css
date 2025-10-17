@@ -790,7 +790,7 @@ audio {
     font-size: 12px;
   }
   nav {
-    min-height: 61px !important;
+    min-height: 64px !important;
   }
   .show-sidebar {
     top: 112px !important;
@@ -1017,7 +1017,7 @@ audio {
 
 @media (max-width: 480px) {
   #search-input {
-    width: 56% !important;
+    width: 43% !important;
     font-size: 0.9rem;
   }
   #search-container {
